@@ -438,13 +438,11 @@ export abstract class DatePickerBase implements OnInit, OnDestroy {
   public getWeeksNumbers(viewDate: moment.Moment): number[] {
     // initialize weeks row
     const calendarH = this.options.ui.dayRows;
-    const startDay = this.getStartingDay(viewDate);
     const weeks = new Array(calendarH);
-
-    let currWeek = viewDate;
+    const weekFormat = this.options.ui.showISOWeekNumbers ? 'ww' : 'WW';
     for (let i = 0; i < calendarH; i++) {
-      weeks[i] = this.options.ui.showISOWeekNumbers ? startDay.format('ww') : startDay.format('WW');
-      currWeek = viewDate.clone().add(1, 'week');
+      const weekNext = viewDate.clone().add(7 * i, 'day');
+      weeks[i] = weekNext.startOf('week').format(weekFormat);
     }
 
     return weeks;
